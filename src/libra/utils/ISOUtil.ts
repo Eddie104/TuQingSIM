@@ -36,6 +36,10 @@ module libra.utils {
             ISOUtil._topPoint.y = y;
         }
 
+        public static getTopPoint(): egret.Point {
+            return ISOUtil._topPoint;
+        }
+
         /**
          * 设置单个格子的大小
          */

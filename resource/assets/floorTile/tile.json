@@ -1,0 +1,7 @@
+{"file":"tile.png","frames":{
+"tile0021-1":{"x":0,"y":0,"w":42,"h":29,"offX":0,"offY":0,"sourceW":42,"sourceH":29},
+"tile0021-2":{"x":0,"y":62,"w":42,"h":29,"offX":0,"offY":0,"sourceW":42,"sourceH":29},
+"tile0021-3":{"x":0,"y":31,"w":42,"h":29,"offX":0,"offY":0,"sourceW":42,"sourceH":29},
+"tile0021-4":{"x":44,"y":31,"w":42,"h":29,"offX":0,"offY":0,"sourceW":42,"sourceH":29},
+"tile0021-5":{"x":44,"y":0,"w":42,"h":29,"offX":0,"offY":0,"sourceW":42,"sourceH":29},
+"tile0021s":{"x":0,"y":0,"w":42,"h":29,"offX":0,"offY":0,"sourceW":42,"sourceH":29}}}

@@ -1,8 +1,8 @@
-module com.apowo.sim.room {
+module sim.room {
 
     export class Room extends libra.displayObject.JSprite {
 
-        private _map = [
+        protected _map = [
             [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
             [1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1],
             [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1],
@@ -16,9 +16,9 @@ module com.apowo.sim.room {
         /**
          * 地板
          */
-        private _floor: Floor;
+        protected _floor: Floor;
 
-        private _me: com.apowo.sim.displayObject.Avatar;
+        protected _me: sim.displayObject.Avatar;
 
         public constructor() {
             super();
@@ -34,22 +34,22 @@ module com.apowo.sim.room {
             this.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onTap, this);
         }
 
-        private drawFloor(): void {
+        protected drawFloor(): void {
             var floor: Floor = new Floor();
             this.addChild(floor);
             floor.draw(this._map);
             this._floor = floor;
         }
 
-        private drawMe(): void {
-            var me = new com.apowo.sim.displayObject.Avatar();
+        protected drawMe(): void {
+            var me = new sim.displayObject.Avatar();
             me.setRowAndCol(0, 0);
             this.addChild(me);
             libra.tick.Tick.getInstance().addItem(me);
             this._me = me;
         }
 
-        private onTap(evt: egret.TouchEvent): void {
+        protected onTap(evt: egret.TouchEvent): void {
             var p:egret.Point = libra.utils.ISOUtil.getItemIndex(new egret.Point(evt.stageX, evt.stageY));
             console.log(p);
         }

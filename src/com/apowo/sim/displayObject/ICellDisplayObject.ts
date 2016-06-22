@@ -1,4 +1,4 @@
-module com.apowo.sim.displayObject {
+module sim.displayObject {
 
     /**
      * 根据格子索引放置的可是对象

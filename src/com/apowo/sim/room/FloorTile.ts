@@ -1,6 +1,6 @@
-module com.apowo.sim.room {
+module sim.room {
 
-    export class FloorTile extends com.apowo.sim.displayObject.CellBitmap {
+    export class FloorTile extends sim.displayObject.CellBitmap {
 
         public constructor(resName: string) {
             super(RES.getRes(resName));

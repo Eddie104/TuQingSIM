@@ -1,5 +1,5 @@
 
-module com.apowo.sim.model.data {
+module sim.model {
 
     /**
      * name

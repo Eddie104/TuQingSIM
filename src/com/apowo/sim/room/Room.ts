@@ -1,17 +1,11 @@
 module sim.room {
 
     export class Room extends libra.displayObject.JSprite {
-
-        protected _map = [
-            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1],
-            [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1],
-            [1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1],
-            [1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1],
-            [1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1],
-            [1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1],
-            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
-        ];
+        
+        /**
+         * 地图数据
+         */
+        protected _mapData:sim.model.MapData;
 
         /**
          * 地板
@@ -26,6 +20,9 @@ module sim.room {
             libra.utils.ISOUtil.setContentSize(40, 20);
             libra.utils.ISOUtil.setTopPoint(libra.display.cx(), libra.display.cy());
 
+            this._mapData = new sim.model.MapData();
+            this._mapData.type = 1;
+
             RES.getResAsync("tile_json", function () {
                 this.drawFloor();
                 this.drawMe();
@@ -37,7 +34,7 @@ module sim.room {
         protected drawFloor(): void {
             var floor: Floor = new Floor();
             this.addChild(floor);
-            floor.draw(this._map);
+            floor.draw(this._mapData.mapArr);
             this._floor = floor;
         }
 

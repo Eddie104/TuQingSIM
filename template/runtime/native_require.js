@@ -8,6 +8,7 @@ var game_file_list = [
 	"libs/modules/game/game.native.js",
 	"libs/modules/tween/tween.js",
 	"libs/modules/res/res.js",
+	"bin-debug/com/apowo/sim/config/FurnitureConfig.js",
 	"bin-debug/libra/displayObject/JSprite.js",
 	"bin-debug/com/apowo/sim/displayObject/CellSprite.js",
 	"bin-debug/com/apowo/sim/displayObject/Avatar.js",

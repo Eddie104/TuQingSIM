@@ -1,4 +1,4 @@
-module com.apowo.sim.displayObject {
+module sim.displayObject {
 
     export class Furniture extends CellSprite {
 

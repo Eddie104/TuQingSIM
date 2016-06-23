@@ -1,4 +1,4 @@
-module com.apowo.sim.room {
+module sim.room {
 
     export class Floor extends libra.displayObject.JSprite {
 
@@ -24,7 +24,7 @@ module com.apowo.sim.room {
             this.cacheAsBitmap = true;
         }
 
-        private createResName(prefix: string, map: Array<Array<number>>, rows: number, cols: number, row: number, col: number): string {
+        protected createResName(prefix: string, map: Array<Array<number>>, rows: number, cols: number, row: number, col: number): string {
             if (row == 0 && col == 0) {
                 return prefix + "-1";
             }else if (row == 0) {

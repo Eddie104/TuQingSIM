@@ -1,6 +1,6 @@
-module com.apowo.sim.displayObject {
+module sim.displayObject {
 
-    export class Avatar extends com.apowo.sim.displayObject.CellSprite implements libra.tick.ITickable {
+    export class Avatar extends sim.displayObject.CellSprite implements libra.tick.ITickable {
 
         private _isTickable: boolean = true;
 

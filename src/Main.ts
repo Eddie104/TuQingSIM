@@ -116,8 +116,12 @@ class Main extends egret.DisplayObjectContainer {
      */
     private createGameScene():void {
         egret.Bitmap.defaultSmoothing = false;
-        var room = new com.apowo.sim.room.Room();
+        var room = new sim.room.Room();
         this.stage.addChild(room);
+
+        var f:sim.model.FurnitureData = new sim.model.FurnitureData();
+        f.type = 2;
+        sim.model.FurnitureManager.instance.addData(f);
     }
 }
 

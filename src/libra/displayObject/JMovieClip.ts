@@ -130,7 +130,7 @@ module libra.displayObject {
 		 */
         public addFrameAction(target: number | string, fun: Function, args: Array<any> = null, thisObj?: any, disposableEnable: Boolean = false): void {
             var frame: number = this.getFrame(target);
-            frame = libra.utils.mathUtil.MathUtil.max(0, libra.utils.mathUtil.MathUtil.min(frame, this._numFrame - 1));
+            frame = libra.utils.MathUtil.max(0, libra.utils.MathUtil.min(frame, this._numFrame - 1));
             var mcFrame: JMCFrame = this._frameList[frame];
             mcFrame.addFun(fun, args, thisObj, disposableEnable);
         }
@@ -142,7 +142,7 @@ module libra.displayObject {
          */
         public removeFrameAction(target: number | string, fun: Function): void {
             var frame: number = this.getFrame(target);
-            frame = libra.utils.mathUtil.MathUtil.max(0, libra.utils.mathUtil.MathUtil.min(frame, this._numFrame - 1));
+            frame = libra.utils.MathUtil.max(0, libra.utils.MathUtil.min(frame, this._numFrame - 1));
             var mcFrame: JMCFrame = this._frameList[frame];
             mcFrame.removeFun(fun);
         }
@@ -191,7 +191,7 @@ module libra.displayObject {
         }
 
         protected set curFrame(curFrame: number) {
-            this._curFrame = libra.utils.mathUtil.MathUtil.max(0, libra.utils.mathUtil.MathUtil.min(this._curFrame, this._numFrame - 1));
+            this._curFrame = libra.utils.MathUtil.max(0, libra.utils.MathUtil.min(this._curFrame, this._numFrame - 1));
             var frame: JMCFrame = this._frameList[this._curFrame];
             frame.doFun();
 

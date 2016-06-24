@@ -55,7 +55,7 @@ module libra.utils {
           */
         public static getItemPointAtPoint(p: egret.Point): egret.Point {
             p = ISOUtil.trans45To90(p);
-            return new egret.Point(mathUtil.MathUtil.int(p.x / ISOUtil.width), mathUtil.MathUtil.int(p.y / ISOUtil.height));
+            return new egret.Point(MathUtil.int(p.x / ISOUtil.width), MathUtil.int(p.y / ISOUtil.height));
         }
 
 		/**
@@ -71,7 +71,7 @@ module libra.utils {
             col = col < 0 ? -1 : col;
             //			row = row < 0 ? 0 : row;
             //			col = col < 0 ? 0 : col;
-            return new egret.Point(mathUtil.MathUtil.int(col), mathUtil.MathUtil.int(row));
+            return new egret.Point(MathUtil.int(col), MathUtil.int(row));
         }
 
 		/**
@@ -92,7 +92,7 @@ module libra.utils {
             mouseP = mouseP.subtract(topPoint);
             var col: number = mouseP.x / ISOUtil.height;
             var row: number = mouseP.y / ISOUtil.height - mouseP.x / ISOUtil.width;
-            return new egret.Point(mathUtil.MathUtil.int(col), mathUtil.MathUtil.int(row));
+            return new egret.Point(MathUtil.int(col), MathUtil.int(row));
         }
 
         public static getItemPosOnWall(row: number, col: number): egret.Point {

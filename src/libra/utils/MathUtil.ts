@@ -1,4 +1,4 @@
-module libra.utils.mathUtil {
+module libra.utils {
 
     export class MathUtil {
 

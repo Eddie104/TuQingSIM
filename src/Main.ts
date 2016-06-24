@@ -116,7 +116,7 @@ class Main extends egret.DisplayObjectContainer {
      */
     private createGameScene():void {
         egret.Bitmap.defaultSmoothing = false;
-        var room = new sim.room.Room();
+        var room:sim.room.Room = new sim.room.Room();
         this.stage.addChild(room);
 
         var f:sim.model.FurnitureData = new sim.model.FurnitureData();

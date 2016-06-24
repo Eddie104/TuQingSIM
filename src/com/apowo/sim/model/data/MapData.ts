@@ -5,7 +5,11 @@ module sim.model {
      */
     export class MapData extends Data {
 
-        private _mapArr:Array<Array<number>>;
+        protected _mapArr:Array<Array<number>>;
+
+        protected _rows:number;
+
+        protected _cols:number;
 
         constructor() {
             super();
@@ -15,10 +19,20 @@ module sim.model {
             this._type = val;
             var cfg = libra.utils.queryUtil.queryByType(sim.config.MAP, val);
             this._mapArr = cfg.mapArr;
+            this._rows = this._mapArr.length;
+            this._cols = this._mapArr[0].length;
         }
 
         public get mapArr():Array<Array<number>>{
             return this._mapArr;
+        }
+
+        public get rows():number{
+            return this._rows;
+        }
+
+        public get cols():number{
+            return this._cols;
         }
     }
 }

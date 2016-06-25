@@ -14,6 +14,7 @@ module libra.aStar {
         private _numCols: number;
         private _numRows: number;
         private _cellSize: number;
+        private _cellSizeHalf:number;
 
         /**
         * 构造函数
@@ -24,6 +25,7 @@ module libra.aStar {
             this._numCols = numCols;
             this._numRows = numRows;
             this._cellSize = cellSize;
+            this._cellSizeHalf = cellSize >> 1;
             this._nodes = new Array();
 
             // 以列数作为X坐标循环
@@ -117,8 +119,8 @@ module libra.aStar {
             if (startX == endX && startY == endY) return false;
 
             // 两节点中心位置
-            var point1: egret.Point = new egret.Point(startX * this._cellSize + this._cellSize / 2, startY * this._cellSize + this._cellSize / 2);
-            var point2: egret.Point = new egret.Point(endX * this._cellSize + this._cellSize / 2, endY * this._cellSize + this._cellSize / 2);
+            var point1: egret.Point = new egret.Point(startX * this._cellSize + this._cellSizeHalf, startY * this._cellSize + this._cellSizeHalf);
+            var point2: egret.Point = new egret.Point(endX * this._cellSize + this._cellSizeHalf, endY * this._cellSize + this._cellSizeHalf);
 
             // 根据起点终点间横纵向距离的大小来判断遍历方向
             var distX: number = Math.abs(endX - startX);

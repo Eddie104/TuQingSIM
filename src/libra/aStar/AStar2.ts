@@ -5,21 +5,32 @@ module libra.aStar {
      *
      */
     export class AStar2 {
+
         /**开放列表*/
         private _open: NodePoint[];
+
         /**封闭列表*/
         private _closed: NodePoint[];
+
         /**节点网格数据对象*/
         private _grid: Grid;
+
         /**结束节点*/
         private _endNode: NodePoint;
+
         /**开始节点*/
         private _startNode: NodePoint;
+
         /**找到的路径节点数组*/
         private _path: NodePoint[];
+
         private _floydPath: NodePoint[];
+
         /** 是否结束寻路 */
         public isEnd: boolean = false;
+
+        /** 是否只是四方向寻路 */
+        public isSearch4Dir: boolean = false;
 
         /**启发函数方法*/
         // private _heuristic:Function = manhattan;
@@ -50,6 +61,7 @@ module libra.aStar {
 
             return this.search();
         }
+
         /**寻路*/
         public search(): boolean {
             // 九宫格中心节点
@@ -82,6 +94,12 @@ module libra.aStar {
                 // 一次九宫格循环节点
                 for (var i: number = startX; i <= endX; i++) {
                     for (var j: number = startY; j <= endY; j++) {
+                        if (this.isSearch4Dir) {
+                            // 当横、纵坐标的差值都不为0时，说明是斜方向上的点
+                            if (node.x - i != 0 && node.y - j != 0) {
+                                continue;
+                            }
+                        }
                         // 当前要被探查的节点
                         var test: NodePoint = this._grid.getNode(i, j);
                         // 若当前节点等于起始节点 或 不可通过 或 当前节点位于斜方向时其相邻的拐角节点不可通过

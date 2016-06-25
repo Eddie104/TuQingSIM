@@ -81,10 +81,11 @@ module sim.room {
             var astar: libra.aStar.AStar2 = new libra.aStar.AStar2();
             if (astar.findPath(this._mapGrid)) {
                 //得到平滑路径
-                astar.floyd();
+                // astar.floyd();
                 //在路径中去掉起点节点，避免玩家对象走回头路
-                astar.floydPath.shift();
-                var path: libra.aStar.NodePoint[] = astar.floydPath;
+                // astar.floydPath.shift();
+                astar.path.shift();
+                var path: libra.aStar.NodePoint[] = astar.path;
                 //this._path = astar.path;
                 // this._index = 0;
                 // this.addEventListener(egret.Event.ENTER_FRAME, this.onEnterFrame, this);

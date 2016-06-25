@@ -14,24 +14,24 @@ module libra.aStar {
         private _numCols: number;
         private _numRows: number;
         private _cellSize: number;
-        private _cellSizeHalf:number;
+        private _cellSizeHalf: number;
 
         /**
         * 构造函数
-        * @numCols 列
         * @numRows 行
+        * @numCols 列
         */
-        public constructor(numCols: number, numRows: number, cellSize: number) {
-            this._numCols = numCols;
+        public constructor(numRows: number, numCols: number, cellSize: number) {
             this._numRows = numRows;
+            this._numCols = numCols;
             this._cellSize = cellSize;
             this._cellSizeHalf = cellSize >> 1;
             this._nodes = new Array();
 
             // 以列数作为X坐标循环
-            for (var i: number = 0; i < this._numCols; i++) {
+            for (var i: number = 0; i < this._numRows; i++) {
                 this._nodes[i] = [];
-                for (var j: number = 0; j < this._numRows; j++) {
+                for (var j: number = 0; j < this._numCols; j++) {
                     this._nodes[i][j] = new NodePoint(i, j);
                 }
             }
@@ -57,29 +57,29 @@ module libra.aStar {
 
         /**
         * 设置开始节点
-        * @param x 列
-        * @param y 行
+        * @param row 行
+        * @param col 列
         */
-        public setStartNode(x: number, y: number): void {
-            this._startNode = this._nodes[x][y];
+        public setStartNode(row: number, col: number): void {
+            this._startNode = this._nodes[row][col];
         }
 
         /**
         * 设置节点是否可以通行
-        * @param x 列
-        * @param y 行
+        * @param row 行
+        * @param col 列
         */
-        public setWalkable(x: number, y: number, value: boolean): void {
-            this._nodes[x][y].walkable = value;
+        public setWalkable(row: number, col: number, value: boolean): void {
+            this._nodes[row][col].walkable = value;
         }
 
         /**
         * 设置节点是否透明
-        * @param x 列
-        * @param y 行
+        * @param row 行
+        * @param col 列
         */
-        public setAlphable(x: number, y: number, value: boolean): void {
-            this._nodes[x][y].alphable = value;
+        public setAlphable(row: number, col: number, value: boolean): void {
+            this._nodes[row][col].alphable = value;
         }
 
         /**

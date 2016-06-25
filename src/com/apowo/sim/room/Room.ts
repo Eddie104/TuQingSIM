@@ -21,8 +21,6 @@ module sim.room {
          */
         protected _mapGrid: libra.aStar.Grid;
 
-        // protected _aStar: AStar2;
-
         /**
          * 地板
          */
@@ -39,7 +37,7 @@ module sim.room {
             // 初始化地图数据
             var mapData: MapData = new MapData();
             mapData.type = 1;
-            var mapGrid: libra.aStar.Grid = new libra.aStar.Grid(mapData.cols, mapData.rows, Room.CELL_WIDTH);
+            var mapGrid: libra.aStar.Grid = new libra.aStar.Grid(mapData.rows, mapData.cols, Room.CELL_WIDTH);
             for (var row: number = 0; row < mapData.rows; row++) {
                 for (var col: number = 0; col < mapData.cols; col++) {
                     mapGrid.setWalkable(row, col, mapData.mapArr[row][col] > 0);
@@ -53,6 +51,10 @@ module sim.room {
                 this.drawFloor();
                 this.drawMe();
             }, this);
+            var g:egret.Graphics = this.graphics;
+            g.beginFill(0xff0000, .3);
+            g.drawRect(0, 0, libra.display.stageWidth(), libra.display.stageHeight());
+            g.endFill();
             this.touchEnabled = true;
             this.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onTap, this);
         }
@@ -74,10 +76,12 @@ module sim.room {
 
         protected onTap(evt: egret.TouchEvent): void {
             var p: egret.Point = libra.utils.ISOUtil.getItemIndex(new egret.Point(evt.stageX, evt.stageY));
-
+            if(p.x < 0 || p.x >= this._mapData.cols || p.y < 0 || p.y >= this._mapData.rows){
+                return;
+            }
             this._mapGrid.setStartNode(this._me.getRow(), this._me.getCol());
             this._mapGrid.setEndNode(p.y, p.x)
-
+            
             var astar: libra.aStar.AStar2 = new libra.aStar.AStar2();
             if (astar.findPath(this._mapGrid)) {
                 //得到平滑路径
@@ -85,13 +89,7 @@ module sim.room {
                 //在路径中去掉起点节点，避免玩家对象走回头路
                 // astar.floydPath.shift();
                 astar.path.shift();
-                var path: libra.aStar.NodePoint[] = astar.path;
-                //this._path = astar.path;
-                // this._index = 0;
-                // this.addEventListener(egret.Event.ENTER_FRAME, this.onEnterFrame, this);
-
-                //console.log("寻路时间：" + String(egret.getTimer() - oldTime) + " 毫秒");
-                this._me.startMove(path);
+                this._me.startMove(astar.path);
             }
         }
     }

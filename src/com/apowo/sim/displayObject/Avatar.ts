@@ -12,7 +12,7 @@ module sim.displayObject {
 
         private _movingTotalStep: number;
 
-        protected _movingSpeed: number = .5;
+        protected _movingSpeed: number = 1;
 
         private _isWillChangeMovingNodePoint: boolean;
 

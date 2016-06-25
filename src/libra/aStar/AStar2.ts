@@ -88,9 +88,9 @@ module libra.aStar {
 
                 // 九宫格循环 确保了检查的节点永远在网格里面
                 var startX: number = 0 > node.x - 1 ? 0 : node.x - 1;
-                var endX: number = this._grid.numCols - 1 < node.x + 1 ? this._grid.numCols - 1 : node.x + 1;
+                var endX: number = this._grid.numRows - 1 < node.x + 1 ? this._grid.numRows - 1 : node.x + 1;
                 var startY: number = 0 > node.y - 1 ? 0 : node.y - 1;
-                var endY: number = this._grid.numRows - 1 < node.y + 1 ? this._grid.numRows - 1 : node.y + 1;
+                var endY: number = this._grid.numCols - 1 < node.y + 1 ? this._grid.numCols - 1 : node.y + 1;
                 // 一次九宫格循环节点
                 for (var i: number = startX; i <= endX; i++) {
                     for (var j: number = startY; j <= endY; j++) {
@@ -103,7 +103,14 @@ module libra.aStar {
                         // 当前要被探查的节点
                         var test: NodePoint = this._grid.getNode(i, j);
                         // 若当前节点等于起始节点 或 不可通过 或 当前节点位于斜方向时其相邻的拐角节点不可通过
-                        if (test == node || !test.walkable || !this._grid.getNode(node.x, test.y).walkable || !this._grid.getNode(test.x, node.y).walkable) {
+                        // if(!test){
+                        //     console.log(i, j);
+                        //     continue;
+                        // }
+                        if (test == node || !test.walkable) {
+                            continue;
+                        }
+                        if(!this._grid.getNode(node.x, test.y) || !this._grid.getNode(node.x, test.y).walkable || !this._grid.getNode(test.x, node.y) || !this._grid.getNode(test.x, node.y).walkable){
                             continue;
                         }
                         // 代价计算 横竖为1 斜方向为 Math.SQRT2

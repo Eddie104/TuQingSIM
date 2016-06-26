@@ -115,6 +115,8 @@ class Main extends egret.DisplayObjectContainer {
      * Create a game scene
      */
     private createGameScene():void {
+        // console.log(libra.utils.arrayUtil.rotate([[0,1,0, 1],[1,1,0, 1],[0,0,1, 1]]));
+
         egret.Bitmap.defaultSmoothing = false;
         var room:sim.room.Room = new sim.room.Room();
         this.stage.addChild(room);
@@ -122,6 +124,11 @@ class Main extends egret.DisplayObjectContainer {
         var f:sim.model.FurnitureData = new sim.model.FurnitureData();
         f.type = 2;
         sim.model.FurnitureManager.instance.addData(f);
+
+        // 测试配置文件
+        var json = RES.getRes("description_json");
+        var r = libra.utils.queryUtil.queryByType(json, 100);
+        console.log(r);
     }
 }
 

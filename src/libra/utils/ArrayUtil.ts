@@ -163,11 +163,11 @@ module libra.utils.arrayUtil {
         return false;
     };
     
-    export function rotate(ary: Array<any>): Array<any> {
+    export function rotate(ary: Array<Array<number>>): Array<Array<number>> {
         var m: number = ary.length;
         if(m > 0) {
             var n: number = ary[0].length;
-            var result: Array<any> = [];
+            var result: Array<Array<number>> = [];
             for(i = 0;i < n;i += 1) {
                 result[i] = [];
                 for(j = 0;j < m;j += 1) {

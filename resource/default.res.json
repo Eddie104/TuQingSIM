@@ -1,20 +1,27 @@
 {
 	"groups": [
 		{
-			"keys": "description_json",
+			"keys": "description_json,furniture_json",
 			"name": "preload"
 		}
 	],
 	"resources": [
 		{
-			"name": "description_json",
+			"url": "config/description.json",
 			"type": "json",
-			"url": "config/description.json"
+			"name": "description_json"
 		},
 		{
-			"name": "tile_json",
+			"url": "assets/floorTile/tile.json",
 			"type": "sheet",
-			"url": "assets/floorTile/tile.json"
+			"name": "tile_json",
+			"subkeys": "tile0021-1,tile0021-2,tile0021-3,tile0021-4,tile0021-5,tile0021s"
+		},
+		{
+			"url": "assets/furniture/furniture.json",
+			"type": "sheet",
+			"name": "furniture_json",
+			"subkeys": "bat0001-3-01,bed0029-3-01,cha0060-3-01,lux0025-3-01,tab0181-3-01,tab0189-3-01"
 		}
 	]
 }

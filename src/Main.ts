@@ -117,6 +117,10 @@ class Main extends egret.DisplayObjectContainer {
     private createGameScene():void {
         // console.log(libra.utils.arrayUtil.rotate([[0,1,0, 1],[1,1,0, 1],[0,0,1, 1]]));
 
+        // console.log("aaaaaaaaaaaaaaaaaaaaaaaaa", RES.getRes("tab0189-3-01"));
+        // var t = new egret.Bitmap(RES.getRes("tab0189-3-01"));
+        // this.stage.addChild(t);
+
         egret.Bitmap.defaultSmoothing = false;
         var room:sim.room.Room = new sim.room.Room();
         this.stage.addChild(room);

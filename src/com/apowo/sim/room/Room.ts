@@ -52,7 +52,7 @@ module sim.room {
                 this.drawMe();
             }, this);
             var g:egret.Graphics = this.graphics;
-            g.beginFill(0xff0000, .3);
+            g.beginFill(0xff0000, 0);
             g.drawRect(0, 0, libra.display.stageWidth(), libra.display.stageHeight());
             g.endFill();
             this.touchEnabled = true;

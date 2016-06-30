@@ -32,17 +32,9 @@ module sim.model {
             this._offsetY = cfg.OffsetY;
 
             var subface: Array<Array<number>> = new Array<Array<number>>();
-            var subfaceRows: Array<string> = cfg.Subface.split('|');
-            var rowArr: Array<string>;
-            for (var row = 0, rows = subfaceRows.length; row < rows; row++) {
-                subface[row] = new Array<number>();
-                rowArr = subfaceRows[row].split('&');
-                for (var col = 0, cols = rowArr.length; col < cols; col++) {
-                    subface[row][col] = <number><any>rowArr[col];
-                }
-            }
-            this._subfaceRows = rows;
-            this._subfaceCols = cols;
+            var subfaceRows: Array<Array<number>> = cfg.Subface;
+            this._subfaceRows = subfaceRows.length;
+            this._subfaceCols = this._subfaceRows > 0 ? subfaceRows[0].length : 0;
             this._subface = subface;
         }
 

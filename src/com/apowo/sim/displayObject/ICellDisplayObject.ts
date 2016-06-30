@@ -8,7 +8,7 @@ module sim.displayObject {
         setRowAndCol(row: number, col: number): void;
 
         getRow(): number;
-
+        
         getCol(): number;
 
     }

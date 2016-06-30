@@ -1,10 +1,9 @@
 module libra.aStar {
+    
     /**
-     *
-     * 
-     * 节点二维数组 节点操作方法
-     * @author 
-     *
+     * 节点二维数组 节点操作方法 
+     * @export
+     * @class Grid
      */
     export class Grid {
 
@@ -97,8 +96,11 @@ module libra.aStar {
         }
 
         /**
-        * 返回网格总列数
-        */
+         * 
+         * 返回网格总列数 
+         * @readonly
+         * @type {number}
+         */
         public get numCols(): number {
             return this._numCols;
         }
@@ -271,7 +273,6 @@ module libra.aStar {
                         }
                     }
                 }
-
             }
             return result;
         }

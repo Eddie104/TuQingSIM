@@ -6342,9 +6342,9 @@ var egret;
                 else {
                     this._bounds.setTo(0, 0, 0, 0);
                 }
+                node.bounds.copyFrom(this._bounds);
             }
             bounds.copyFrom(this._bounds);
-            node.bounds.copyFrom(this._bounds);
         };
         return Mesh;
     }(egret.Bitmap));
@@ -11847,6 +11847,7 @@ var egret;
     locale_strings[1045] = "The resource url is not found";
     locale_strings[1046] = "BitmapText no corresponding characters: {0}, please check the configuration file";
     locale_strings[1047] = "egret.localStorage.setItem save failed,key={0}&value={1}";
+    locale_strings[1048] = "Video loading failed";
     //gui  3000-3099
     locale_strings[3000] = "Theme configuration file failed to load: {0}";
     locale_strings[3001] = "Cannot find the skin name which is configured in Theme: {0}";
@@ -11992,6 +11993,7 @@ var egret;
     locale_strings[1045] = "没有设置要加载的资源地址";
     locale_strings[1046] = "BitmapText 找不到对应字符:{0}，请检查配置文件";
     locale_strings[1047] = "egret.localStorage.setItem保存失败,key={0}&value={1}";
+    locale_strings[1048] = "视频加载失败";
     //gui  3000-3099
     locale_strings[3000] = "主题配置文件加载失败: {0}";
     locale_strings[3001] = "找不到主题中所配置的皮肤类名: {0}";
@@ -12916,6 +12918,7 @@ var egret;
                  * @private
                  */
                 this.sizeChanged = false;
+                this.$dirtyRegionPolicy = egret.DirtyRegionPolicy.ON;
                 this.root = root;
                 this.dirtyRegion = new sys.DirtyRegion(root);
                 this.isStage = (root instanceof egret.Stage);
@@ -13066,7 +13069,8 @@ var egret;
                     }
                     var buffer = this.renderBuffer;
                     buffer.beginClip(this.dirtyList, this.offsetX, this.offsetY);
-                    var drawCalls = sys.systemRenderer.render(this.root, buffer, this.offsetMatrix, this.dirtyList);
+                    var dirtyList = this.$dirtyRegionPolicy == egret.DirtyRegionPolicy.OFF ? null : this.dirtyList;
+                    var drawCalls = sys.systemRenderer.render(this.root, buffer, this.offsetMatrix, dirtyList);
                     buffer.endClip();
                     var surface = buffer.surface;
                     var renderNode = this.$renderNode;
@@ -13115,6 +13119,7 @@ var egret;
             };
             p.setDirtyRegionPolicy = function (policy) {
                 //todo 这里还可以做更多优化
+                this.$dirtyRegionPolicy = policy;
                 this.dirtyRegion.setDirtyRegionPolicy(policy);
                 this.renderBuffer.setDirtyRegionPolicy(policy);
             };
@@ -13155,6 +13160,34 @@ var egret;
 var egret;
 (function (egret) {
 })(egret || (egret = {}));
+//////////////////////////////////////////////////////////////////////////////////////
+//
+//  Copyright (c) 2014-2015, Egret Technology Inc.
+//  All rights reserved.
+//  Redistribution and use in source and binary forms, with or without
+//  modification, are permitted provided that the following conditions are met:
+//
+//     * Redistributions of source code must retain the above copyright
+//       notice, this list of conditions and the following disclaimer.
+//     * Redistributions in binary form must reproduce the above copyright
+//       notice, this list of conditions and the following disclaimer in the
+//       documentation and/or other materials provided with the distribution.
+//     * Neither the name of the Egret nor the
+//       names of its contributors may be used to endorse or promote products
+//       derived from this software without specific prior written permission.
+//
+//  THIS SOFTWARE IS PROVIDED BY EGRET AND CONTRIBUTORS "AS IS" AND ANY EXPRESS
+//  OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+//  OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+//  IN NO EVENT SHALL EGRET AND CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+//  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+//  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;LOSS OF USE, DATA,
+//  OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+//  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+//  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+//  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+//
+//////////////////////////////////////////////////////////////////////////////////////
 var egret;
 (function (egret) {
 })(egret || (egret = {}));
@@ -13375,16 +13408,16 @@ var egret;
              */
             p.updateStageSize = function (stageWidth, stageHeight) {
                 var stage = this.stage;
-                if (stageWidth !== stage.$stageWidth || stageHeight !== stage.$stageHeight) {
-                    stage.$stageWidth = stageWidth;
-                    stage.$stageHeight = stageHeight;
-                    this.screenDisplayList.setClipRect(stageWidth, stageHeight);
-                    if (this.stageDisplayList) {
-                        this.stageDisplayList.setClipRect(stageWidth, stageHeight);
-                    }
-                    stage.dispatchEventWith(egret.Event.RESIZE);
-                    stage.$invalidate(true);
+                //if (stageWidth !== stage.$stageWidth || stageHeight !== stage.$stageHeight) {
+                stage.$stageWidth = stageWidth;
+                stage.$stageHeight = stageHeight;
+                this.screenDisplayList.setClipRect(stageWidth, stageHeight);
+                if (this.stageDisplayList) {
+                    this.stageDisplayList.setClipRect(stageWidth, stageHeight);
                 }
+                stage.dispatchEventWith(egret.Event.RESIZE);
+                stage.$invalidate(true);
+                //}
             };
             return Player;
         }(egret.HashObject));
@@ -14104,6 +14137,13 @@ var egret;
                         stageWidth = screenWidth;
                         stageHeight = screenHeight;
                         break;
+                }
+                //宽高不是2的整数倍会导致图片绘制出现问题
+                if (displayWidth % 2 != 0) {
+                    displayWidth += 1;
+                }
+                if (displayHeight % 2 != 0) {
+                    displayHeight += 1;
                 }
                 return {
                     stageWidth: stageWidth,
@@ -15698,15 +15738,19 @@ var egret;
                 var currentX = x + Math.cos(start) * radiusX;
                 var currentY = y + Math.sin(start) * radiusY;
                 this.moveTo(currentX, currentY);
+                var u = Math.cos(start);
+                var v = Math.sin(start);
                 for (var i = 0; i < 4; i++) {
                     var addAngle = end - start;
                     var a = 4 * Math.tan(addAngle / 4) / 3;
-                    var x1 = currentX - a * (currentY - y);
-                    var y1 = currentY + a * (currentX - x);
-                    currentX = x + Math.cos(end) * radiusX;
-                    currentY = y + Math.sin(end) * radiusY;
-                    var x2 = currentX + a * (currentY - y);
-                    var y2 = currentY - a * (currentX - x);
+                    var x1 = currentX - v * a * radiusX;
+                    var y1 = currentY + u * a * radiusY;
+                    u = Math.cos(end);
+                    v = Math.sin(end);
+                    currentX = x + u * radiusX;
+                    currentY = y + v * radiusY;
+                    var x2 = currentX + v * a * radiusX;
+                    var y2 = currentY - u * a * radiusY;
                     this.cubicCurveTo(x1, y1, x2, y2, currentX, currentY);
                     if (end === endAngle) {
                         break;
@@ -16790,6 +16834,25 @@ var egret;
                 return Capabilities.$runtimeType;
             }
         );
+        d(Capabilities, "supportVersion"
+            /***
+             * @language en_US
+             * version of the native support.
+             * @type {string}
+             * @version Egret 2.5
+             * @platform Web,Native
+             */
+            /***
+             * @language zh_CN
+             * native support 的版本号。
+             * @type {string}
+             * @version Egret 2.5
+             * @platform Web,Native
+             */
+            ,function () {
+                return Capabilities.$supportVersion;
+            }
+        );
         /**
          * 设置系统信息
          */
@@ -16808,9 +16871,70 @@ var egret;
                 }
                 Capabilities.$os = osType;
                 var version = arr[2].substring(1, arr[2].length);
-                Capabilities.supportVersion = version;
+                Capabilities.$supportVersion = version;
             }
         };
+        d(Capabilities, "renderMode"
+            /***
+             * @language en_US
+             * current render mode.
+             * @type {string}
+             * @version Egret 3.0.7
+             * @platform Web,Native
+             */
+            /***
+             * @language zh_CN
+             * 当前渲染模式。
+             * @type {string}
+             * @version Egret 3.0.7
+             * @platform Web,Native
+             */
+            ,function () {
+                return Capabilities.$renderMode;
+            }
+        );
+        d(Capabilities, "boundingClientWidth"
+            /***
+             * @language en_US
+             * Clients border width.
+             * The value before the document class initialization is always 0.
+             * This value will change after the distribution Event.RESIZE and StageOrientationEvent.ORIENTATION_CHANGE.
+             * @version Egret 3.1.3
+             * @platform Web,Native
+             */
+            /***
+             * @language zh_CN
+             * 客户端边界宽度。
+             * 该值在文档类初始化之前始终是0。
+             * 该值在派发 Event.RESIZE 以及 StageOrientationEvent.ORIENTATION_CHANGE 之后会发生改变。
+             * @version Egret 3.1.3
+             * @platform Web,Native
+             */
+            ,function () {
+                return Capabilities.$boundingClientWidth;
+            }
+        );
+        d(Capabilities, "boundingClientHeight"
+            /***
+             * @language en_US
+             * Clients border height.
+             * The value before the document class initialization is always 0.
+             * This value will change after the distribution Event.RESIZE and StageOrientationEvent.ORIENTATION_CHANGE.
+             * @version Egret 3.1.3
+             * @platform Web,Native
+             */
+            /***
+             * @language zh_CN
+             * 客户端边界高度。
+             * 该值在文档类初始化之前始终是0。
+             * 该值在派发 Event.RESIZE 以及 StageOrientationEvent.ORIENTATION_CHANGE 之后会发生改变。
+             * @version Egret 3.1.3
+             * @platform Web,Native
+             */
+            ,function () {
+                return Capabilities.$boundingClientHeight;
+            }
+        );
         /**
          * @private
          */
@@ -16823,36 +16947,10 @@ var egret;
          * @private
          */
         Capabilities.$runtimeType = "Unknown";
-        /***
-         * @language en_US
-         * version of the native support
-         * @type {string}
-         * @version Egret 2.5
-         * @platform Web,Native
-         */
-        /***
-         * @language zh_CN
-         * native support 的版本号
-         * @type {string}
-         * @version Egret 2.5
-         * @platform Web,Native
-         */
-        Capabilities.supportVersion = "Unknown";
-        /***
-         * @language en_US
-         * current render mode
-         * @type {string}
-         * @version Egret 3.0.7
-         * @platform Web,Native
-         */
-        /***
-         * @language zh_CN
-         * 当前渲染模式
-         * @type {string}
-         * @version Egret 3.0.7
-         * @platform Web,Native
-         */
-        Capabilities.renderMode = "Unknown";
+        Capabilities.$supportVersion = "Unknown";
+        Capabilities.$renderMode = "Unknown";
+        Capabilities.$boundingClientWidth = 0;
+        Capabilities.$boundingClientHeight = 0;
         return Capabilities;
     }());
     egret.Capabilities = Capabilities;
@@ -16861,6 +16959,11 @@ var egret;
         egret.$markReadOnly(Capabilities, "language", false);
         egret.$markReadOnly(Capabilities, "isMobile", false);
         egret.$markReadOnly(Capabilities, "os", false);
+        egret.$markReadOnly(Capabilities, "runtimeType", false);
+        egret.$markReadOnly(Capabilities, "supportVersion", false);
+        egret.$markReadOnly(Capabilities, "renderMode", false);
+        egret.$markReadOnly(Capabilities, "boundingClientWidth", false);
+        egret.$markReadOnly(Capabilities, "boundingClientHeight", false);
     }
 })(egret || (egret = {}));
 var testDeviceType = function () {

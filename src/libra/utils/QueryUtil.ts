@@ -4,7 +4,7 @@ module libra.utils.queryUtil {
 	 * @author 
 	 *
 	 */
-    export function queryByType(ary: Array<any>, val: number, property: string = 'type'):any {
+    export function queryByType(ary: Array<any>, val: number, property: string = 'Type'):any {
         if(!ary) return null;
         var leftIndex: number = 0, middleIndex: number = 0;
         var rightIndex: number = ary.length - 1;

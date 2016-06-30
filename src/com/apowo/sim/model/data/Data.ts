@@ -23,6 +23,7 @@ module sim.model {
         }
 
         public set type(val: number) {
+            
             this._type = val;
         }
 

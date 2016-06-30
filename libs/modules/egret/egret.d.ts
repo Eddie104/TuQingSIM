@@ -7997,6 +7997,7 @@ declare module egret {
          * @language en_US
          * Initiates loading of an external video file from the specified URL.
          * @param url Audio file URL
+         * * @param cache Should cache the video，only  used in Native
          * @version Egret 2.4
          * @platform Web,Native
          */
@@ -8004,10 +8005,11 @@ declare module egret {
          * @language zh_CN
          * 启动从指定 URL 加载外部视频文件的过程。
          * @param url 需要加载的视频文件URL
+         * @param cache 是否需要缓存到本地，只在 Native 上使用
          * @version Egret 2.4
          * @platform Web,Native
          */
-        load(url: string): void;
+        load(url: string, cache?: boolean): void;
         /**
          * @language en_US
          * Play back the video.
@@ -8172,7 +8174,7 @@ declare module egret {
      * @copy egret.Video
      */
     var Video: {
-        new (url?: string): Video;
+        new (url?: string, cache?: boolean): Video;
     };
 }
 declare module egret_native {
@@ -9017,6 +9019,7 @@ declare module egret.sys {
          * 改变画布的尺寸，由于画布尺寸修改会清空原始画布。所以这里将原始画布绘制到一个新画布上，再与原始画布交换。
          */
         changeSurfaceSize(): void;
+        private $dirtyRegionPolicy;
         setDirtyRegionPolicy(policy: string): void;
     }
 }
@@ -9046,6 +9049,9 @@ declare module egret {
     function updateAllScreens(): void;
 }
 declare module egret {
+    /**
+     * @private
+     */
     interface FPSDisplay extends DisplayObject {
         /**
          * 更新FPS信息
@@ -9056,10 +9062,16 @@ declare module egret {
          */
         updateInfo(info: string): void;
     }
+    /**
+     * @private
+     */
     var FPSDisplay: {
         new (stage: Stage, showFPS: boolean, showLog: boolean, logFilter: string, styles: Object): FPSDisplay;
     };
 }
+/**
+ * @private
+ */
 interface FPSData extends Object {
     fps: number;
     draw: number;
@@ -10977,38 +10989,76 @@ declare module egret {
         static runtimeType: string;
         /***
          * @language en_US
-         * version of the native support
+         * version of the native support.
          * @type {string}
          * @version Egret 2.5
          * @platform Web,Native
          */
         /***
          * @language zh_CN
-         * native support 的版本号
+         * native support 的版本号。
          * @type {string}
          * @version Egret 2.5
          * @platform Web,Native
          */
         static supportVersion: string;
+        static $supportVersion: string;
         /**
          * 设置系统信息
          */
         static $setNativeCapabilities(value: string): void;
         /***
          * @language en_US
-         * current render mode
+         * current render mode.
          * @type {string}
          * @version Egret 3.0.7
          * @platform Web,Native
          */
         /***
          * @language zh_CN
-         * 当前渲染模式
+         * 当前渲染模式。
          * @type {string}
          * @version Egret 3.0.7
          * @platform Web,Native
          */
         static renderMode: string;
+        static $renderMode: string;
+        /***
+         * @language en_US
+         * Clients border width.
+         * The value before the document class initialization is always 0.
+         * This value will change after the distribution Event.RESIZE and StageOrientationEvent.ORIENTATION_CHANGE.
+         * @version Egret 3.1.3
+         * @platform Web,Native
+         */
+        /***
+         * @language zh_CN
+         * 客户端边界宽度。
+         * 该值在文档类初始化之前始终是0。
+         * 该值在派发 Event.RESIZE 以及 StageOrientationEvent.ORIENTATION_CHANGE 之后会发生改变。
+         * @version Egret 3.1.3
+         * @platform Web,Native
+         */
+        static boundingClientWidth: number;
+        static $boundingClientWidth: number;
+        /***
+         * @language en_US
+         * Clients border height.
+         * The value before the document class initialization is always 0.
+         * This value will change after the distribution Event.RESIZE and StageOrientationEvent.ORIENTATION_CHANGE.
+         * @version Egret 3.1.3
+         * @platform Web,Native
+         */
+        /***
+         * @language zh_CN
+         * 客户端边界高度。
+         * 该值在文档类初始化之前始终是0。
+         * 该值在派发 Event.RESIZE 以及 StageOrientationEvent.ORIENTATION_CHANGE 之后会发生改变。
+         * @version Egret 3.1.3
+         * @platform Web,Native
+         */
+        static boundingClientHeight: number;
+        static $boundingClientHeight: number;
     }
 }
 declare var testDeviceType: () => boolean;

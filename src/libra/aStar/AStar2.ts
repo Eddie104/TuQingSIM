@@ -1,8 +1,9 @@
 module libra.aStar {
+    
     /**
-     * 算法类
-     * @author 
-     *
+     * AStar寻路
+     * @export
+     * @class AStar2
      */
     export class AStar2 {
 
@@ -110,7 +111,7 @@ module libra.aStar {
                         if (test == node || !test.walkable) {
                             continue;
                         }
-                        if(!this._grid.getNode(node.x, test.y) || !this._grid.getNode(node.x, test.y).walkable || !this._grid.getNode(test.x, node.y) || !this._grid.getNode(test.x, node.y).walkable){
+                        if(!this._grid.getNode(node.x, test.y).walkable || !this._grid.getNode(test.x, node.y).walkable){
                             continue;
                         }
                         // 代价计算 横竖为1 斜方向为 Math.SQRT2
